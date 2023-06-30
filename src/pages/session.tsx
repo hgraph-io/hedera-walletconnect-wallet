@@ -18,7 +18,7 @@ export default function SessionPage() {
   const { query, replace } = useRouter()
   const [loading, setLoading] = useState(false)
 
-  const { activeChainId } = useSnapshot(SettingsStore.state);
+  const { activeChainId } = useSnapshot(SettingsStore.state)
 
   useEffect(() => {
     if (query?.topic) {
@@ -90,15 +90,6 @@ export default function SessionPage() {
   //     return (
   //       <ProposalSelectSection
   //         addresses={eip155Addresses}
-  //         selectedAddresses={selectedAccounts[chain]}
-  //         onSelect={onSelectAccount}
-  //         chain={chain}
-  //       />
-  //     )
-  //   } else if (isCosmosChain(chain)) {
-  //     return (
-  //       <ProposalSelectSection
-  //         addresses={cosmosAddresses}
   //         selectedAddresses={selectedAccounts[chain]}
   //         onSelect={onSelectAccount}
   //         chain={chain}

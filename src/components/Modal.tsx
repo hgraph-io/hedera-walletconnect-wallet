@@ -1,7 +1,6 @@
 import ModalStore from '@/store/ModalStore'
 import SessionProposalModal from '@/views/SessionProposalModal'
 import SessionSendTransactionModal from '@/views/SessionSendTransactionModal'
-import SessionSignCosmosModal from '@/views/SessionSignCosmosModal'
 import SessionRequestModal from '@/views/SessionSignModal'
 import SessionSignNearModal from '@/views/SessionSignNearModal'
 import SessionSignPolkadotModal from '@/views/SessionSignPolkadotModal'
@@ -28,7 +27,6 @@ export default function Modal() {
       {view === 'SessionSignTypedDataModal' && <SessionSignTypedDataModal />}
       {view === 'SessionSendTransactionModal' && <SessionSendTransactionModal />}
       {view === 'SessionUnsuportedMethodModal' && <SessionUnsuportedMethodModal />}
-      {view === 'SessionSignCosmosModal' && <SessionSignCosmosModal />}
       {view === 'SessionSignSolanaModal' && <SessionSignSolanaModal />}
       {view === 'SessionSignPolkadotModal' && <SessionSignPolkadotModal />}
       {view === 'SessionSignNearModal' && <SessionSignNearModal />}

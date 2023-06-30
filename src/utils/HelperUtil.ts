@@ -1,4 +1,3 @@
-import { COSMOS_MAINNET_CHAINS, TCosmosChain } from '@/data/COSMOSData'
 import { EIP155_CHAINS, TEIP155Chain } from '@/data/EIP155Data'
 import { MULTIVERSX_CHAINS, TMultiversxChain } from '@/data/MultiversxData'
 import { NEAR_TEST_CHAINS, TNearChain } from '@/data/NEARData'
@@ -87,13 +86,6 @@ export function isEIP155Chain(chain: string) {
 }
 
 /**
- * Check if chain is part of COSMOS standard
- */
-export function isCosmosChain(chain: string) {
-  return chain.includes('cosmos')
-}
-
-/**
  * Check if chain is part of SOLANA standard
  */
 export function isSolanaChain(chain: string) {
@@ -140,7 +132,6 @@ export function isTezosChain(chain: string) {
  */
 export function formatChainName(chainId: string) {
   return (
-    COSMOS_MAINNET_CHAINS[chainId as TCosmosChain]?.name ??
     EIP155_CHAINS[chainId as TEIP155Chain]?.name ??
     MULTIVERSX_CHAINS[chainId as TMultiversxChain]?.name ??
     NEAR_TEST_CHAINS[chainId as TNearChain]?.name ??
