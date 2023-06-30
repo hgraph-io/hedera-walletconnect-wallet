@@ -1,5 +1,4 @@
 import SettingsStore from '@/store/SettingsStore'
-import { createOrRestoreCosmosWallet } from '@/utils/CosmosWalletUtil'
 import { createOrRestoreEIP155Wallet } from '@/utils/EIP155WalletUtil'
 import { createOrRestoreSolanaWallet } from '@/utils/SolanaWalletUtil'
 import { createOrRestorePolkadotWallet } from '@/utils/PolkadotWalletUtil'
@@ -20,7 +19,6 @@ export default function useInitialization() {
   const onInitialize = useCallback(async () => {
     try {
       const { eip155Addresses } = createOrRestoreEIP155Wallet()
-      const { cosmosAddresses } = await createOrRestoreCosmosWallet()
       const { solanaAddresses } = await createOrRestoreSolanaWallet()
       const { polkadotAddresses } = await createOrRestorePolkadotWallet()
       const { nearAddresses } = await createOrRestoreNearWallet()
@@ -29,7 +27,6 @@ export default function useInitialization() {
       const { tezosAddresses } = await createOrRestoreTezosWallet()
 
       SettingsStore.setEIP155Address(eip155Addresses[0])
-      SettingsStore.setCosmosAddress(cosmosAddresses[0])
       SettingsStore.setSolanaAddress(solanaAddresses[0])
       SettingsStore.setPolkadotAddress(polkadotAddresses[0])
       SettingsStore.setNearAddress(nearAddresses[0])

@@ -7,7 +7,6 @@ interface State {
   testNets: boolean
   account: number
   eip155Address: string
-  cosmosAddress: string
   solanaAddress: string
   polkadotAddress: string
   nearAddress: string
@@ -26,7 +25,6 @@ const state = proxy<State>({
   account: 0,
   activeChainId: '1',
   eip155Address: '',
-  cosmosAddress: '',
   solanaAddress: '',
   polkadotAddress: '',
   nearAddress: '',
@@ -48,10 +46,6 @@ const SettingsStore = {
 
   setEIP155Address(eip155Address: string) {
     state.eip155Address = eip155Address
-  },
-
-  setCosmosAddress(cosmosAddresses: string) {
-    state.cosmosAddress = cosmosAddresses
   },
 
   setSolanaAddress(solanaAddress: string) {
