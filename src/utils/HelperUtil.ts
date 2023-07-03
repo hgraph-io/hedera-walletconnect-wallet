@@ -4,7 +4,6 @@ import { NEAR_TEST_CHAINS, TNearChain } from '@/data/NEARData'
 import { POLKADOT_CHAINS, TPolkadotChain } from '@/data/PolkadotData'
 import { SOLANA_CHAINS, TSolanaChain } from '@/data/SolanaData'
 import { TEZOS_CHAINS, TTezosChain } from '@/data/TezosData'
-import { TRON_CHAINS, TTronChain } from '@/data/TronData'
 
 import { utils } from 'ethers'
 
@@ -114,13 +113,6 @@ export function isMultiversxChain(chain: string) {
 }
 
 /**
- * Check if chain is part of TRON standard
- */
-export function isTronChain(chain: string) {
-  return chain.includes('tron')
-}
-
-/**
  * Check if chain is part of Tezos standard
  */
 export function isTezosChain(chain: string) {
@@ -138,7 +130,6 @@ export function formatChainName(chainId: string) {
     POLKADOT_CHAINS[chainId as TPolkadotChain]?.name ??
     SOLANA_CHAINS[chainId as TSolanaChain]?.name ??
     TEZOS_CHAINS[chainId as TTezosChain]?.name ??
-    TRON_CHAINS[chainId as TTronChain]?.name ??
     chainId
   )
 }

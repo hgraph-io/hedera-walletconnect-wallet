@@ -3,7 +3,6 @@ import { EIP155_MAINNET_CHAINS, EIP155_TEST_CHAINS } from '@/data/EIP155Data'
 import { NEAR_TEST_CHAINS } from '@/data/NEARData'
 import { SOLANA_MAINNET_CHAINS, SOLANA_TEST_CHAINS } from '@/data/SolanaData'
 import { MULTIVERSX_MAINNET_CHAINS, MULTIVERSX_TEST_CHAINS } from '@/data/MultiversxData'
-import { TRON_MAINNET_CHAINS, TRON_TEST_CHAINS } from '@/data/TronData'
 import { formatChainName } from '@/utils/HelperUtil'
 import { Col, Row, Text } from '@nextui-org/react'
 import { SessionTypes } from '@walletconnect/types'
@@ -15,13 +14,11 @@ import { Fragment } from 'react'
 const CHAIN_METADATA = {
   ...SOLANA_MAINNET_CHAINS,
   ...MULTIVERSX_MAINNET_CHAINS,
-  ...TRON_MAINNET_CHAINS,
   ...EIP155_MAINNET_CHAINS,
   ...EIP155_TEST_CHAINS,
   ...SOLANA_TEST_CHAINS,
   ...NEAR_TEST_CHAINS,
-  ...MULTIVERSX_TEST_CHAINS,
-  ...TRON_TEST_CHAINS
+  ...MULTIVERSX_TEST_CHAINS
 }
 
 /**
