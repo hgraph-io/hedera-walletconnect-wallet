@@ -5,8 +5,7 @@ import SessionProposalChainCard from '@/components/SessionProposalChainCard'
 import ModalStore from '@/store/ModalStore'
 import { eip155Addresses } from '@/utils/EIP155WalletUtil'
 import { tezosAddresses } from '@/utils/TezosWalletUtil'
-import { isEIP155Chain, isSolanaChain, isNearChain, isTezosChain } from '@/utils/HelperUtil'
-import { solanaAddresses } from '@/utils/SolanaWalletUtil'
+import { isEIP155Chain, isNearChain, isTezosChain } from '@/utils/HelperUtil'
 import { signClient } from '@/utils/WalletConnectUtil'
 import { Button, Divider, Modal, Text } from '@nextui-org/react'
 import { SessionTypes } from '@walletconnect/types'
@@ -120,15 +119,6 @@ export default function SessionProposalModal() {
       return (
         <ProposalSelectSection
           addresses={eip155Addresses}
-          selectedAddresses={selectedAccounts[chain]}
-          onSelect={onSelectAccount}
-          chain={chain}
-        />
-      )
-    } else if (isSolanaChain(chain)) {
-      return (
-        <ProposalSelectSection
-          addresses={solanaAddresses}
           selectedAddresses={selectedAccounts[chain]}
           onSelect={onSelectAccount}
           chain={chain}
