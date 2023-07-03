@@ -7,6 +7,7 @@ import { Text } from '@nextui-org/react'
 import { Fragment } from 'react'
 import { useSnapshot } from 'valtio'
 import { NEAR_TEST_CHAINS } from '@/data/NEARData'
+import { HEDERA_CHAINS } from '@/data/HederaData'
 
 export default function HomePage() {
   const { testNets, eip155Address, nearAddress } = useSnapshot(SettingsStore.state)
@@ -52,6 +53,16 @@ export default function HomePage() {
               logo={logo}
               rgb={rgb}
               address={nearAddress}
+              chainId={caip10}
+            />
+          ))}
+          {Object.entries(HEDERA_CHAINS).map(([caip10, { name, logo, rgb }]) => (
+            <AccountCard
+              key={name}
+              name={name}
+              logo={logo}
+              rgb={rgb}
+              address={nearAddress} // BAD! update to hedera
               chainId={caip10}
             />
           ))}
