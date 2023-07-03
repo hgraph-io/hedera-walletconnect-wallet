@@ -3,7 +3,6 @@ import SessionProposalModal from '@/views/SessionProposalModal'
 import SessionSendTransactionModal from '@/views/SessionSendTransactionModal'
 import SessionRequestModal from '@/views/SessionSignModal'
 import SessionSignNearModal from '@/views/SessionSignNearModal'
-import SessionSignPolkadotModal from '@/views/SessionSignPolkadotModal'
 import SessionSignSolanaModal from '@/views/SessionSignSolanaModal'
 import SessionSignTezosModal from '@/views/SessionSignTezosModal'
 import SessionSignTypedDataModal from '@/views/SessionSignTypedDataModal'
@@ -26,7 +25,6 @@ export default function Modal() {
       {view === 'SessionSendTransactionModal' && <SessionSendTransactionModal />}
       {view === 'SessionUnsuportedMethodModal' && <SessionUnsuportedMethodModal />}
       {view === 'SessionSignSolanaModal' && <SessionSignSolanaModal />}
-      {view === 'SessionSignPolkadotModal' && <SessionSignPolkadotModal />}
       {view === 'SessionSignNearModal' && <SessionSignNearModal />}
       {view === 'SessionSignTezosModal' && <SessionSignTezosModal />}
       {view === 'LegacySessionProposalModal' && <LegacySessionProposalModal />}

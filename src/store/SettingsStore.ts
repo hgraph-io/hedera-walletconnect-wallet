@@ -8,7 +8,6 @@ interface State {
   account: number
   eip155Address: string
   solanaAddress: string
-  polkadotAddress: string
   nearAddress: string
   tezosAddress: string
   relayerRegionURL: string
@@ -24,7 +23,6 @@ const state = proxy<State>({
   activeChainId: '1',
   eip155Address: '',
   solanaAddress: '',
-  polkadotAddress: '',
   nearAddress: '',
   tezosAddress: '',
   relayerRegionURL: ''
@@ -48,12 +46,10 @@ const SettingsStore = {
     state.solanaAddress = solanaAddress
   },
 
-  setPolkadotAddress(polkadotAddress: string) {
-    state.polkadotAddress = polkadotAddress
-  },
   setNearAddress(nearAddress: string) {
     state.nearAddress = nearAddress
   },
+
   setRelayerRegionURL(relayerRegionURL: string) {
     state.relayerRegionURL = relayerRegionURL
   },
