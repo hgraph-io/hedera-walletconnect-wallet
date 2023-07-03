@@ -10,7 +10,7 @@ import { NEAR_TEST_CHAINS } from '@/data/NEARData'
 import { HEDERA_CHAINS } from '@/data/HederaData'
 
 export default function HomePage() {
-  const { testNets, eip155Address, nearAddress } = useSnapshot(SettingsStore.state)
+  const { testNets, eip155Address, nearAddress, hederaAddress } = useSnapshot(SettingsStore.state)
 
   return (
     <Fragment>
@@ -56,13 +56,14 @@ export default function HomePage() {
               chainId={caip10}
             />
           ))}
+          <Text>Warning: Hedera integration is incomplete</Text>
           {Object.entries(HEDERA_CHAINS).map(([caip10, { name, logo, rgb }]) => (
             <AccountCard
               key={name}
               name={name}
               logo={logo}
               rgb={rgb}
-              address={nearAddress} // BAD! update to hedera
+              address={hederaAddress}
               chainId={caip10}
             />
           ))}

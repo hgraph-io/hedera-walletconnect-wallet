@@ -8,6 +8,7 @@ interface State {
   account: number
   eip155Address: string
   nearAddress: string
+  hederaAddress: string
   relayerRegionURL: string
   activeChainId: string
 }
@@ -20,6 +21,7 @@ const state = proxy<State>({
   account: 0,
   activeChainId: '1',
   eip155Address: '',
+  hederaAddress: '',
   nearAddress: '',
   relayerRegionURL: ''
 })
@@ -40,6 +42,10 @@ const SettingsStore = {
 
   setNearAddress(nearAddress: string) {
     state.nearAddress = nearAddress
+  },
+
+  setHederaAddress(hederaAddress: string) {
+    state.hederaAddress = hederaAddress
   },
 
   setRelayerRegionURL(relayerRegionURL: string) {

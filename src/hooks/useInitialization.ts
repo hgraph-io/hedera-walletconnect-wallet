@@ -18,6 +18,7 @@ export default function useInitialization() {
 
       SettingsStore.setEIP155Address(eip155Addresses[0])
       SettingsStore.setNearAddress(nearAddresses[0])
+      SettingsStore.setHederaAddress('0x2a5445015b0d9fbae2d937e5750c9e0c4eca1213') // TODO: Initialize hedera wallet
       await createSignClient(relayerRegionURL)
       setInitialized(true)
     } catch (err: unknown) {
