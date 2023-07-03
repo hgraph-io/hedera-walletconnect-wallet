@@ -3,7 +3,6 @@ import RelayRegionPicker from '@/components/RelayRegionPicker'
 import SettingsStore from '@/store/SettingsStore'
 import { eip155Wallets } from '@/utils/EIP155WalletUtil'
 import { solanaWallets } from '@/utils/SolanaWalletUtil'
-import { multiversxWallets } from '@/utils/MultiversxWalletUtil'
 import { Card, Divider, Row, Switch, Text } from '@nextui-org/react'
 import { Fragment } from 'react'
 import { useSnapshot } from 'valtio'
@@ -11,9 +10,7 @@ import packageJSON from '../../package.json'
 import { tezosWallets } from '@/utils/TezosWalletUtil'
 
 export default function SettingsPage() {
-  const { testNets, eip155Address, solanaAddress, multiversxAddress, tezosAddress } = useSnapshot(
-    SettingsStore.state
-  )
+  const { testNets, eip155Address, solanaAddress, tezosAddress } = useSnapshot(SettingsStore.state)
 
   return (
     <Fragment>
@@ -73,15 +70,6 @@ export default function SettingsPage() {
       </Text>
       <Card bordered borderWeight="light" css={{ minHeight: '215px', wordWrap: 'break-word' }}>
         <Text css={{ fontFamily: '$mono' }}>{solanaWallets[solanaAddress].getSecretKey()}</Text>
-      </Card>
-
-      <Text h4 css={{ marginTop: '$10', marginBottom: '$5' }}>
-        MultiversX Mnemonic
-      </Text>
-      <Card bordered borderWeight="light" css={{ minHeight: '215px', wordWrap: 'break-word' }}>
-        <Text css={{ fontFamily: '$mono' }}>
-          {multiversxWallets[multiversxAddress].getMnemonic()}
-        </Text>
       </Card>
 
       <Text h4 css={{ marginTop: '$10', marginBottom: '$5' }}>
