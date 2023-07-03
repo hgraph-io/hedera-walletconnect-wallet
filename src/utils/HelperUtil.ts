@@ -1,6 +1,5 @@
 import { EIP155_CHAINS, TEIP155Chain } from '@/data/EIP155Data'
 import { NEAR_TEST_CHAINS, TNearChain } from '@/data/NEARData'
-import { TEZOS_CHAINS, TTezosChain } from '@/data/TezosData'
 
 import { utils } from 'ethers'
 
@@ -89,20 +88,12 @@ export function isNearChain(chain: string) {
 }
 
 /**
- * Check if chain is part of Tezos standard
- */
-export function isTezosChain(chain: string) {
-  return chain.includes('tezos')
-}
-
-/**
  * Formats chainId to its name
  */
 export function formatChainName(chainId: string) {
   return (
     EIP155_CHAINS[chainId as TEIP155Chain]?.name ??
     NEAR_TEST_CHAINS[chainId as TNearChain]?.name ??
-    TEZOS_CHAINS[chainId as TTezosChain]?.name ??
     chainId
   )
 }

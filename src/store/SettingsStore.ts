@@ -8,7 +8,6 @@ interface State {
   account: number
   eip155Address: string
   nearAddress: string
-  tezosAddress: string
   relayerRegionURL: string
   activeChainId: string
 }
@@ -22,7 +21,6 @@ const state = proxy<State>({
   activeChainId: '1',
   eip155Address: '',
   nearAddress: '',
-  tezosAddress: '',
   relayerRegionURL: ''
 })
 
@@ -46,10 +44,6 @@ const SettingsStore = {
 
   setRelayerRegionURL(relayerRegionURL: string) {
     state.relayerRegionURL = relayerRegionURL
-  },
-
-  setTezosAddress(tezosAddress: string) {
-    state.tezosAddress = tezosAddress
   },
 
   setActiveChainId(value: string) {

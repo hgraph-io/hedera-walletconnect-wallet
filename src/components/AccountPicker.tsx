@@ -1,7 +1,6 @@
 import SettingsStore from '@/store/SettingsStore'
 import { eip155Addresses } from '@/utils/EIP155WalletUtil'
 import { nearAddresses } from '@/utils/NearWalletUtil'
-import { tezosAddresses } from '@/utils/TezosWalletUtil'
 import { useSnapshot } from 'valtio'
 
 export default function AccountPicker() {
@@ -12,7 +11,6 @@ export default function AccountPicker() {
     SettingsStore.setAccount(account)
     SettingsStore.setEIP155Address(eip155Addresses[account])
     SettingsStore.setNearAddress(nearAddresses[account])
-    SettingsStore.setTezosAddress(tezosAddresses[account])
   }
 
   return (

@@ -26,7 +26,6 @@ interface State {
     | 'SessionSendTransactionModal'
     | 'SessionUnsuportedMethodModal'
     | 'SessionSignNearModal'
-    | 'SessionSignTezosModal'
     | 'LegacySessionProposalModal'
     | 'LegacySessionSignModal'
     | 'LegacySessionSignTypedDataModal'

@@ -7,10 +7,9 @@ import { Text } from '@nextui-org/react'
 import { Fragment } from 'react'
 import { useSnapshot } from 'valtio'
 import { NEAR_TEST_CHAINS } from '@/data/NEARData'
-import { TEZOS_MAINNET_CHAINS, TEZOS_TEST_CHAINS } from '@/data/TezosData'
 
 export default function HomePage() {
-  const { testNets, eip155Address, nearAddress, tezosAddress } = useSnapshot(SettingsStore.state)
+  const { testNets, eip155Address, nearAddress } = useSnapshot(SettingsStore.state)
 
   return (
     <Fragment>
@@ -28,16 +27,6 @@ export default function HomePage() {
           rgb={rgb}
           address={eip155Address}
           chainId={caip10.toString()}
-        />
-      ))}
-      {Object.entries(TEZOS_MAINNET_CHAINS).map(([caip10, { name, logo, rgb }]) => (
-        <AccountCard
-          key={name}
-          name={name}
-          logo={logo}
-          rgb={rgb}
-          address={tezosAddress}
-          chainId={caip10}
         />
       ))}
 
@@ -63,16 +52,6 @@ export default function HomePage() {
               logo={logo}
               rgb={rgb}
               address={nearAddress}
-              chainId={caip10}
-            />
-          ))}
-          {Object.entries(TEZOS_TEST_CHAINS).map(([caip10, { name, logo, rgb }]) => (
-            <AccountCard
-              key={name}
-              name={name}
-              logo={logo}
-              rgb={rgb}
-              address={tezosAddress}
               chainId={caip10}
             />
           ))}
