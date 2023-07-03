@@ -1,6 +1,5 @@
 import { EIP155_CHAINS, TEIP155Chain } from '@/data/EIP155Data'
 import { NEAR_TEST_CHAINS, TNearChain } from '@/data/NEARData'
-import { POLKADOT_CHAINS, TPolkadotChain } from '@/data/PolkadotData'
 import { SOLANA_CHAINS, TSolanaChain } from '@/data/SolanaData'
 import { TEZOS_CHAINS, TTezosChain } from '@/data/TezosData'
 
@@ -91,13 +90,6 @@ export function isSolanaChain(chain: string) {
 }
 
 /**
- * Check if chain is part of POLKADOT standard
- */
-export function isPolkadotChain(chain: string) {
-  return chain.includes('polkadot')
-}
-
-/**
  * Check if chain is part of NEAR standard
  */
 export function isNearChain(chain: string) {
@@ -118,7 +110,6 @@ export function formatChainName(chainId: string) {
   return (
     EIP155_CHAINS[chainId as TEIP155Chain]?.name ??
     NEAR_TEST_CHAINS[chainId as TNearChain]?.name ??
-    POLKADOT_CHAINS[chainId as TPolkadotChain]?.name ??
     SOLANA_CHAINS[chainId as TSolanaChain]?.name ??
     TEZOS_CHAINS[chainId as TTezosChain]?.name ??
     chainId

@@ -1,6 +1,5 @@
 import { EIP155_SIGNING_METHODS } from '@/data/EIP155Data'
 import { SOLANA_SIGNING_METHODS } from '@/data/SolanaData'
-import { POLKADOT_SIGNING_METHODS } from '@/data/PolkadotData'
 import ModalStore from '@/store/ModalStore'
 import { signClient } from '@/utils/WalletConnectUtil'
 import { SignClientTypes } from '@walletconnect/types'
@@ -47,10 +46,6 @@ export default function useWalletConnectEventsManager(initialized: boolean) {
         case SOLANA_SIGNING_METHODS.SOLANA_SIGN_MESSAGE:
         case SOLANA_SIGNING_METHODS.SOLANA_SIGN_TRANSACTION:
           return ModalStore.open('SessionSignSolanaModal', { requestEvent, requestSession })
-
-        case POLKADOT_SIGNING_METHODS.POLKADOT_SIGN_MESSAGE:
-        case POLKADOT_SIGNING_METHODS.POLKADOT_SIGN_TRANSACTION:
-          return ModalStore.open('SessionSignPolkadotModal', { requestEvent, requestSession })
 
         case NEAR_SIGNING_METHODS.NEAR_SIGN_IN:
         case NEAR_SIGNING_METHODS.NEAR_SIGN_OUT:

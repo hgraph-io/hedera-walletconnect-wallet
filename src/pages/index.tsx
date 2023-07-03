@@ -3,7 +3,6 @@ import AccountPicker from '@/components/AccountPicker'
 import PageHeader from '@/components/PageHeader'
 import { EIP155_MAINNET_CHAINS, EIP155_TEST_CHAINS } from '@/data/EIP155Data'
 import { SOLANA_MAINNET_CHAINS, SOLANA_TEST_CHAINS } from '@/data/SolanaData'
-import { POLKADOT_MAINNET_CHAINS, POLKADOT_TEST_CHAINS } from '@/data/PolkadotData'
 import SettingsStore from '@/store/SettingsStore'
 import { Text } from '@nextui-org/react'
 import { Fragment } from 'react'
@@ -12,8 +11,9 @@ import { NEAR_TEST_CHAINS } from '@/data/NEARData'
 import { TEZOS_MAINNET_CHAINS, TEZOS_TEST_CHAINS } from '@/data/TezosData'
 
 export default function HomePage() {
-  const { testNets, eip155Address, solanaAddress, polkadotAddress, nearAddress, tezosAddress } =
-    useSnapshot(SettingsStore.state)
+  const { testNets, eip155Address, solanaAddress, nearAddress, tezosAddress } = useSnapshot(
+    SettingsStore.state
+  )
 
   return (
     <Fragment>
@@ -40,16 +40,6 @@ export default function HomePage() {
           logo={logo}
           rgb={rgb}
           address={solanaAddress}
-          chainId={caip10}
-        />
-      ))}
-      {Object.entries(POLKADOT_MAINNET_CHAINS).map(([caip10, { name, logo, rgb }]) => (
-        <AccountCard
-          key={name}
-          name={name}
-          logo={logo}
-          rgb={rgb}
-          address={polkadotAddress}
           chainId={caip10}
         />
       ))}
@@ -86,16 +76,6 @@ export default function HomePage() {
               logo={logo}
               rgb={rgb}
               address={solanaAddress}
-              chainId={caip10}
-            />
-          ))}
-          {Object.entries(POLKADOT_TEST_CHAINS).map(([caip10, { name, logo, rgb }]) => (
-            <AccountCard
-              key={name}
-              name={name}
-              logo={logo}
-              rgb={rgb}
-              address={polkadotAddress}
               chainId={caip10}
             />
           ))}
