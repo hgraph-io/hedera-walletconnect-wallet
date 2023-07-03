@@ -1,5 +1,4 @@
 import { EIP155_CHAINS, TEIP155Chain } from '@/data/EIP155Data'
-import { MULTIVERSX_CHAINS, TMultiversxChain } from '@/data/MultiversxData'
 import { NEAR_TEST_CHAINS, TNearChain } from '@/data/NEARData'
 import { POLKADOT_CHAINS, TPolkadotChain } from '@/data/PolkadotData'
 import { SOLANA_CHAINS, TSolanaChain } from '@/data/SolanaData'
@@ -106,13 +105,6 @@ export function isNearChain(chain: string) {
 }
 
 /**
- * Check if chain is part of MULTIVERSX standard
- */
-export function isMultiversxChain(chain: string) {
-  return chain.includes('mvx')
-}
-
-/**
  * Check if chain is part of Tezos standard
  */
 export function isTezosChain(chain: string) {
@@ -125,7 +117,6 @@ export function isTezosChain(chain: string) {
 export function formatChainName(chainId: string) {
   return (
     EIP155_CHAINS[chainId as TEIP155Chain]?.name ??
-    MULTIVERSX_CHAINS[chainId as TMultiversxChain]?.name ??
     NEAR_TEST_CHAINS[chainId as TNearChain]?.name ??
     POLKADOT_CHAINS[chainId as TPolkadotChain]?.name ??
     SOLANA_CHAINS[chainId as TSolanaChain]?.name ??

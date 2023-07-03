@@ -10,7 +10,6 @@ interface State {
   solanaAddress: string
   polkadotAddress: string
   nearAddress: string
-  multiversxAddress: string
   tezosAddress: string
   relayerRegionURL: string
   activeChainId: string
@@ -27,7 +26,6 @@ const state = proxy<State>({
   solanaAddress: '',
   polkadotAddress: '',
   nearAddress: '',
-  multiversxAddress: '',
   tezosAddress: '',
   relayerRegionURL: ''
 })
@@ -58,10 +56,6 @@ const SettingsStore = {
   },
   setRelayerRegionURL(relayerRegionURL: string) {
     state.relayerRegionURL = relayerRegionURL
-  },
-
-  setMultiversxAddress(multiversxAddress: string) {
-    state.multiversxAddress = multiversxAddress
   },
 
   setTezosAddress(tezosAddress: string) {

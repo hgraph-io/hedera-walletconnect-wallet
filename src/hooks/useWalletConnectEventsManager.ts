@@ -1,7 +1,6 @@
 import { EIP155_SIGNING_METHODS } from '@/data/EIP155Data'
 import { SOLANA_SIGNING_METHODS } from '@/data/SolanaData'
 import { POLKADOT_SIGNING_METHODS } from '@/data/PolkadotData'
-import { MULTIVERSX_SIGNING_METHODS } from '@/data/MultiversxData'
 import ModalStore from '@/store/ModalStore'
 import { signClient } from '@/utils/WalletConnectUtil'
 import { SignClientTypes } from '@walletconnect/types'
@@ -61,13 +60,6 @@ export default function useWalletConnectEventsManager(initialized: boolean) {
         case NEAR_SIGNING_METHODS.NEAR_SIGN_AND_SEND_TRANSACTIONS:
         case NEAR_SIGNING_METHODS.NEAR_VERIFY_OWNER:
           return ModalStore.open('SessionSignNearModal', { requestEvent, requestSession })
-
-        case MULTIVERSX_SIGNING_METHODS.MULTIVERSX_SIGN_MESSAGE:
-        case MULTIVERSX_SIGNING_METHODS.MULTIVERSX_SIGN_TRANSACTION:
-        case MULTIVERSX_SIGNING_METHODS.MULTIVERSX_SIGN_TRANSACTIONS:
-        case MULTIVERSX_SIGNING_METHODS.MULTIVERSX_SIGN_LOGIN_TOKEN:
-        case MULTIVERSX_SIGNING_METHODS.MULTIVERSX_SIGN_NATIVE_AUTH_TOKEN:
-          return ModalStore.open('SessionSignMultiversxModal', { requestEvent, requestSession })
 
         case NEAR_SIGNING_METHODS.NEAR_GET_ACCOUNTS:
           return signClient.respond({

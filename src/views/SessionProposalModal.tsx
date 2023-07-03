@@ -5,14 +5,12 @@ import SessionProposalChainCard from '@/components/SessionProposalChainCard'
 import ModalStore from '@/store/ModalStore'
 import { eip155Addresses } from '@/utils/EIP155WalletUtil'
 import { polkadotAddresses } from '@/utils/PolkadotWalletUtil'
-import { multiversxAddresses } from '@/utils/MultiversxWalletUtil'
 import { tezosAddresses } from '@/utils/TezosWalletUtil'
 import {
   isEIP155Chain,
   isSolanaChain,
   isPolkadotChain,
   isNearChain,
-  isMultiversxChain,
   isTezosChain
 } from '@/utils/HelperUtil'
 import { solanaAddresses } from '@/utils/SolanaWalletUtil'
@@ -156,15 +154,6 @@ export default function SessionProposalModal() {
       return (
         <ProposalSelectSection
           addresses={nearAddresses}
-          selectedAddresses={selectedAccounts[chain]}
-          onSelect={onSelectAccount}
-          chain={chain}
-        />
-      )
-    } else if (isMultiversxChain(chain)) {
-      return (
-        <ProposalSelectSection
-          addresses={multiversxAddresses}
           selectedAddresses={selectedAccounts[chain]}
           onSelect={onSelectAccount}
           chain={chain}
