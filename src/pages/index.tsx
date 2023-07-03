@@ -5,7 +5,6 @@ import { EIP155_MAINNET_CHAINS, EIP155_TEST_CHAINS } from '@/data/EIP155Data'
 import { SOLANA_MAINNET_CHAINS, SOLANA_TEST_CHAINS } from '@/data/SolanaData'
 import { POLKADOT_MAINNET_CHAINS, POLKADOT_TEST_CHAINS } from '@/data/PolkadotData'
 import { MULTIVERSX_MAINNET_CHAINS, MULTIVERSX_TEST_CHAINS } from '@/data/MultiversxData'
-import { TRON_MAINNET_CHAINS, TRON_TEST_CHAINS } from '@/data/TronData'
 import SettingsStore from '@/store/SettingsStore'
 import { Text } from '@nextui-org/react'
 import { Fragment } from 'react'
@@ -21,7 +20,6 @@ export default function HomePage() {
     polkadotAddress,
     nearAddress,
     multiversxAddress,
-    tronAddress,
     tezosAddress
   } = useSnapshot(SettingsStore.state)
 
@@ -70,16 +68,6 @@ export default function HomePage() {
           logo={logo}
           rgb={rgb}
           address={multiversxAddress}
-          chainId={caip10}
-        />
-      ))}
-      {Object.entries(TRON_MAINNET_CHAINS).map(([caip10, { name, logo, rgb }]) => (
-        <AccountCard
-          key={name}
-          name={name}
-          logo={logo}
-          rgb={rgb}
-          address={tronAddress}
           chainId={caip10}
         />
       ))}
@@ -146,16 +134,6 @@ export default function HomePage() {
               logo={logo}
               rgb={rgb}
               address={multiversxAddress}
-              chainId={caip10}
-            />
-          ))}
-          {Object.entries(TRON_TEST_CHAINS).map(([caip10, { name, logo, rgb }]) => (
-            <AccountCard
-              key={name}
-              name={name}
-              logo={logo}
-              rgb={rgb}
-              address={tronAddress}
               chainId={caip10}
             />
           ))}

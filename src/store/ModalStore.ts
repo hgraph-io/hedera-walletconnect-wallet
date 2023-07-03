@@ -29,7 +29,6 @@ interface State {
     | 'SessionSignPolkadotModal'
     | 'SessionSignNearModal'
     | 'SessionSignMultiversxModal'
-    | 'SessionSignTronModal'
     | 'SessionSignTezosModal'
     | 'LegacySessionProposalModal'
     | 'LegacySessionSignModal'

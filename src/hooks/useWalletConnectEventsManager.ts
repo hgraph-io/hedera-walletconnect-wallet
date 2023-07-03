@@ -2,7 +2,6 @@ import { EIP155_SIGNING_METHODS } from '@/data/EIP155Data'
 import { SOLANA_SIGNING_METHODS } from '@/data/SolanaData'
 import { POLKADOT_SIGNING_METHODS } from '@/data/PolkadotData'
 import { MULTIVERSX_SIGNING_METHODS } from '@/data/MultiversxData'
-import { TRON_SIGNING_METHODS } from '@/data/TronData'
 import ModalStore from '@/store/ModalStore'
 import { signClient } from '@/utils/WalletConnectUtil'
 import { SignClientTypes } from '@walletconnect/types'
@@ -75,9 +74,6 @@ export default function useWalletConnectEventsManager(initialized: boolean) {
             topic,
             response: await approveNearRequest(requestEvent)
           })
-        case TRON_SIGNING_METHODS.TRON_SIGN_MESSAGE:
-        case TRON_SIGNING_METHODS.TRON_SIGN_TRANSACTION:
-          return ModalStore.open('SessionSignTronModal', { requestEvent, requestSession })
         case TEZOS_SIGNING_METHODS.TEZOS_GET_ACCOUNTS:
         case TEZOS_SIGNING_METHODS.TEZOS_SEND:
         case TEZOS_SIGNING_METHODS.TEZOS_SIGN:

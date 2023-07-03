@@ -6,7 +6,6 @@ import ModalStore from '@/store/ModalStore'
 import { eip155Addresses } from '@/utils/EIP155WalletUtil'
 import { polkadotAddresses } from '@/utils/PolkadotWalletUtil'
 import { multiversxAddresses } from '@/utils/MultiversxWalletUtil'
-import { tronAddresses } from '@/utils/TronWalletUtil'
 import { tezosAddresses } from '@/utils/TezosWalletUtil'
 import {
   isEIP155Chain,
@@ -14,7 +13,6 @@ import {
   isPolkadotChain,
   isNearChain,
   isMultiversxChain,
-  isTronChain,
   isTezosChain
 } from '@/utils/HelperUtil'
 import { solanaAddresses } from '@/utils/SolanaWalletUtil'
@@ -22,7 +20,7 @@ import { signClient } from '@/utils/WalletConnectUtil'
 import { Button, Divider, Modal, Text } from '@nextui-org/react'
 import { SessionTypes } from '@walletconnect/types'
 import { getSdkError, mergeArrays } from '@walletconnect/utils'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { nearAddresses } from '@/utils/NearWalletUtil'
 
 export default function SessionProposalModal() {
@@ -167,15 +165,6 @@ export default function SessionProposalModal() {
       return (
         <ProposalSelectSection
           addresses={multiversxAddresses}
-          selectedAddresses={selectedAccounts[chain]}
-          onSelect={onSelectAccount}
-          chain={chain}
-        />
-      )
-    } else if (isTronChain(chain)) {
-      return (
-        <ProposalSelectSection
-          addresses={tronAddresses}
           selectedAddresses={selectedAccounts[chain]}
           onSelect={onSelectAccount}
           chain={chain}
