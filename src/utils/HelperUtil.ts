@@ -1,6 +1,5 @@
 import { EIP155_CHAINS, TEIP155Chain } from '@/data/EIP155Data'
 import { NEAR_TEST_CHAINS, TNearChain } from '@/data/NEARData'
-import { SOLANA_CHAINS, TSolanaChain } from '@/data/SolanaData'
 import { TEZOS_CHAINS, TTezosChain } from '@/data/TezosData'
 
 import { utils } from 'ethers'
@@ -83,13 +82,6 @@ export function isEIP155Chain(chain: string) {
 }
 
 /**
- * Check if chain is part of SOLANA standard
- */
-export function isSolanaChain(chain: string) {
-  return chain.includes('solana')
-}
-
-/**
  * Check if chain is part of NEAR standard
  */
 export function isNearChain(chain: string) {
@@ -110,7 +102,6 @@ export function formatChainName(chainId: string) {
   return (
     EIP155_CHAINS[chainId as TEIP155Chain]?.name ??
     NEAR_TEST_CHAINS[chainId as TNearChain]?.name ??
-    SOLANA_CHAINS[chainId as TSolanaChain]?.name ??
     TEZOS_CHAINS[chainId as TTezosChain]?.name ??
     chainId
   )

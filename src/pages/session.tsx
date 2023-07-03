@@ -85,28 +85,6 @@ export default function SessionPage() {
     setLoading(false)
   }
 
-  // function renderAccountSelection(chain: string) {
-  //   if (isEIP155Chain(chain)) {
-  //     return (
-  //       <ProposalSelectSection
-  //         addresses={eip155Addresses}
-  //         selectedAddresses={selectedAccounts[chain]}
-  //         onSelect={onSelectAccount}
-  //         chain={chain}
-  //       />
-  //     )
-  //   } else if (isSolanaChain(chain)) {
-  //     return (
-  //       <ProposalSelectSection
-  //         addresses={solanaAddresses}
-  //         selectedAddresses={selectedAccounts[chain]}
-  //         onSelect={onSelectAccount}
-  //         chain={chain}
-  //       />
-  //     )
-  //   }
-  // }
-
   return (
     <Fragment>
       <PageHeader title="Session Details" />
