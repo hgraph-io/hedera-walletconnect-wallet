@@ -4,6 +4,7 @@ import { createSignClient, signClient } from '@/utils/WalletConnectUtil'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSnapshot } from 'valtio'
 import { createOrRestoreNearWallet } from '@/utils/NearWalletUtil'
+import { createOrRestoreHederaWallet } from '@/utils/HederaWalletUtil'
 
 export default function useInitialization() {
   const [initialized, setInitialized] = useState(false)
@@ -15,10 +16,11 @@ export default function useInitialization() {
     try {
       const { eip155Addresses } = createOrRestoreEIP155Wallet()
       const { nearAddresses } = await createOrRestoreNearWallet()
+      const { hederaAddresses } = await createOrRestoreHederaWallet()
 
       SettingsStore.setEIP155Address(eip155Addresses[0])
       SettingsStore.setNearAddress(nearAddresses[0])
-      SettingsStore.setHederaAddress('0x2a5445015b0d9fbae2d937e5750c9e0c4eca1213') // TODO: Initialize hedera wallet
+      SettingsStore.setHederaAddress(hederaAddresses[0])
       await createSignClient(relayerRegionURL)
       setInitialized(true)
     } catch (err: unknown) {
