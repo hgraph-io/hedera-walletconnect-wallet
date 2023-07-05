@@ -14,6 +14,7 @@ export const HEDERA_TESTNET_CHAINS: HederaChain = {
     name: 'Hedera Testnet',
     logo: '/chain-logos/hedera-hbar-logo.png',
     rgb: '118, 90, 234',
+    // TODO: not going to use this endpoint I don't think, just a placeholder for now
     rpc: 'https://testnet.hashio.io/api'
   }
 }
