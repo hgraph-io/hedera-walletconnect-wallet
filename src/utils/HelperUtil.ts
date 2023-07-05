@@ -1,5 +1,6 @@
 import { EIP155_CHAINS, TEIP155Chain } from '@/data/EIP155Data'
 import { NEAR_TEST_CHAINS, TNearChain } from '@/data/NEARData'
+import { HEDERA_CHAINS, THederaChain } from '@/data/HederaData'
 
 import { utils } from 'ethers'
 
@@ -94,6 +95,7 @@ export function formatChainName(chainId: string) {
   return (
     EIP155_CHAINS[chainId as TEIP155Chain]?.name ??
     NEAR_TEST_CHAINS[chainId as TNearChain]?.name ??
+    HEDERA_CHAINS[chainId as THederaChain]?.name ??
     chainId
   )
 }

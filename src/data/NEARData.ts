@@ -3,6 +3,8 @@
  * @url https://chainlist.org
  */
 
+import { ChainMetadata } from './types'
+
 /**
  * Types
  */
@@ -17,14 +19,6 @@ export const NEAR_MAINNET_CHAINS = {
 
 interface NearTestChains {
   [key: string]: ChainMetadata
-}
-
-type ChainMetadata = {
-  chainId: string
-  name: string
-  logo: string
-  rgb: string
-  rpc: string
 }
 
 export const NEAR_TEST_CHAINS: NearTestChains = {
