@@ -5,15 +5,15 @@ export async function createOrRestoreHederaWallet() {
   const privateKey = process.env.HEDERA_PRIVATE_KEY
   if (!accountId || !privateKey) {
     throw new Error(
-      'Missing required env vars: `NEXT_PUBLIC_HEDERA_ACCOUNT_ID` and/or `HEDERA_TEST_ACCOUNT_PRIVATE_KEY`'
+      'Missing required env vars: `NEXT_PUBLIC_HEDERA_ACCOUNT_ID` and/or `HEDERA_PRIVATE_KEY`'
     )
   }
 
-  const hederaWallet = await HederaWallet.init({ accountId, privateKey })
-  const hederaAddresses = hederaWallet.getAccounts()
+  const hederaWallet = new HederaWallet({ accountId, privateKey })
+  const account = await hederaWallet.getAccount()
 
   return {
     hederaWallet,
-    hederaAddresses
+    hederaAddress: account.accountId
   }
 }

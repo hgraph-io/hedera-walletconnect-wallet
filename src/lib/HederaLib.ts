@@ -1,4 +1,4 @@
-import { Client, Hbar, PrivateKey, AccountCreateTransaction } from '@hashgraph/sdk'
+import { Client, Hbar } from '@hashgraph/sdk'
 
 type HederaWalletInitOptions = {
   accountId: string
@@ -6,22 +6,15 @@ type HederaWalletInitOptions = {
 }
 
 export class HederaWallet {
-  private static client: Client
+  private client: Client
   private accountId: string
 
-  private constructor(accountId: string) {
+  public constructor({ accountId, privateKey }: HederaWalletInitOptions) {
     this.accountId = accountId
+    this.client = this._initClient({ accountId, privateKey })
   }
 
-  public static async init({ accountId, privateKey }: HederaWalletInitOptions) {
-    if (!this.client) {
-      this.client = this._initClient({ accountId, privateKey })
-    }
-    const { testAccountId } = await this._createTestAccount()
-    return new HederaWallet(testAccountId)
-  }
-
-  private static _initClient({ accountId, privateKey }: HederaWalletInitOptions) {
+  private _initClient({ accountId, privateKey }: HederaWalletInitOptions) {
     const client = Client.forTestnet()
     client.setOperator(accountId, privateKey)
     client.setDefaultMaxTransactionFee(new Hbar(100))
@@ -29,21 +22,27 @@ export class HederaWallet {
     return client
   }
 
-  private static async _createTestAccount() {
-    const testAccountPublicKey = PrivateKey.generateED25519().publicKey
-    const testAccount = await new AccountCreateTransaction()
-      .setKey(testAccountPublicKey)
-      .setInitialBalance(Hbar.fromTinybars(1000))
-      .execute(this.client)
-    const txnReceipt = await testAccount.getReceipt(this.client)
-    const testAccountId = txnReceipt.accountId?.toString()
-    if (!testAccountId) {
-      throw new Error('Failed to get account ID for newly created test account')
+  public async getAccount() {
+    return {
+      accountId: this.accountId
     }
-    return { testAccountId }
   }
 
-  public getAccounts() {
-    return [this.accountId]
-  }
+  /**
+   * This will be used to create an account to transfer HBAR to.
+   * Will be used in conjunction with AccountDeleteTransaction
+   */
+  // private static async _createTestAccount() {
+  //   const testAccountPublicKey = PrivateKey.generateED25519().publicKey
+  //   const testAccount = await new AccountCreateTransaction()
+  //     .setKey(testAccountPublicKey)
+  //     .setInitialBalance(Hbar.fromTinybars(1000))
+  //     .execute(this.client)
+  //   const txnReceipt = await testAccount.getReceipt(this.client)
+  //   const testAccountId = txnReceipt.accountId?.toString()
+  //   if (!testAccountId) {
+  //     throw new Error('Failed to get account ID for newly created test account')
+  //   }
+  //   return { testAccountId }
+  // }
 }

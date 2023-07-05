@@ -16,11 +16,11 @@ export default function useInitialization() {
     try {
       const { eip155Addresses } = createOrRestoreEIP155Wallet()
       const { nearAddresses } = await createOrRestoreNearWallet()
-      const { hederaAddresses } = await createOrRestoreHederaWallet()
+      const { hederaAddress } = await createOrRestoreHederaWallet()
 
       SettingsStore.setEIP155Address(eip155Addresses[0])
       SettingsStore.setNearAddress(nearAddresses[0])
-      SettingsStore.setHederaAddress(hederaAddresses[0])
+      SettingsStore.setHederaAddress(hederaAddress)
       await createSignClient(relayerRegionURL)
       setInitialized(true)
     } catch (err: unknown) {
