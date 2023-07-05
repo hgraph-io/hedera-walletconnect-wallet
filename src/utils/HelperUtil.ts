@@ -89,6 +89,13 @@ export function isNearChain(chain: string) {
 }
 
 /**
+ * Check if chain is part of NEAR standard
+ */
+export function isHederaChain(chain: string) {
+  return chain.includes('hedera')
+}
+
+/**
  * Formats chainId to its name
  */
 export function formatChainName(chainId: string) {
