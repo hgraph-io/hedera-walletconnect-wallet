@@ -1,4 +1,4 @@
-import { truncate } from '@/utils/HelperUtil'
+import { truncateUrl } from '@/utils/HelperUtil'
 import { Avatar, Button, Card, Link, Text, Tooltip } from '@nextui-org/react'
 import Image from 'next/image'
 
@@ -40,7 +40,7 @@ export default function PairingCard({ logo, name, url, onDelete }: IProps) {
             {name}
           </Text>
           <Link href={url} css={{ marginLeft: '$9' }}>
-            {truncate(url?.split('https://')[1] ?? 'Unknown', 23)}
+            {truncateUrl(url)}
           </Link>
         </div>
         <Tooltip content="Delete" placement="left">
