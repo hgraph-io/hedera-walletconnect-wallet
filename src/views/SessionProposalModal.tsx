@@ -4,13 +4,14 @@ import RequestModalContainer from '@/components/RequestModalContainer'
 import SessionProposalChainCard from '@/components/SessionProposalChainCard'
 import ModalStore from '@/store/ModalStore'
 import { eip155Addresses } from '@/utils/EIP155WalletUtil'
-import { isEIP155Chain, isNearChain } from '@/utils/HelperUtil'
+import { isEIP155Chain, isNearChain, isHederaChain } from '@/utils/HelperUtil'
 import { signClient } from '@/utils/WalletConnectUtil'
 import { Button, Divider, Modal, Text } from '@nextui-org/react'
 import { SessionTypes } from '@walletconnect/types'
 import { getSdkError, mergeArrays } from '@walletconnect/utils'
 import { Fragment, useState } from 'react'
 import { nearAddresses } from '@/utils/NearWalletUtil'
+import { hederaAddresses } from '@/utils/HederaWalletUtil'
 
 export default function SessionProposalModal() {
   const [selectedAccounts, setSelectedAccounts] = useState<Record<string, string[]>>({})
@@ -114,25 +115,23 @@ export default function SessionProposalModal() {
 
   // Render account selection checkboxes based on chain
   function renderAccountSelection(chain: string) {
+    let addresses: string[] = []
     if (isEIP155Chain(chain)) {
-      return (
-        <ProposalSelectSection
-          addresses={eip155Addresses}
-          selectedAddresses={selectedAccounts[chain]}
-          onSelect={onSelectAccount}
-          chain={chain}
-        />
-      )
+      addresses = eip155Addresses
     } else if (isNearChain(chain)) {
-      return (
-        <ProposalSelectSection
-          addresses={nearAddresses}
-          selectedAddresses={selectedAccounts[chain]}
-          onSelect={onSelectAccount}
-          chain={chain}
-        />
-      )
+      addresses = nearAddresses
+    } else if (isHederaChain(chain)) {
+      addresses = hederaAddresses
     }
+
+    return (
+      <ProposalSelectSection
+        addresses={addresses}
+        selectedAddresses={selectedAccounts[chain]}
+        onSelect={onSelectAccount}
+        chain={chain}
+      />
+    )
   }
 
   return (

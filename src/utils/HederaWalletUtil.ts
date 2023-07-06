@@ -1,5 +1,8 @@
 import { HederaWallet } from '@/lib/HederaLib'
 
+export let hederaAddresses: string[]
+export let hederaWallet: HederaWallet
+
 export async function createOrRestoreHederaWallet() {
   const accountId = process.env.NEXT_PUBLIC_HEDERA_ACCOUNT_ID
   const privateKey = process.env.HEDERA_PRIVATE_KEY
@@ -9,11 +12,12 @@ export async function createOrRestoreHederaWallet() {
     )
   }
 
-  const hederaWallet = new HederaWallet({ accountId, privateKey })
+  hederaWallet = new HederaWallet({ accountId, privateKey })
   const account = await hederaWallet.getAccount()
+  hederaAddresses = [account.accountId]
 
   return {
     hederaWallet,
-    hederaAddress: account.accountId
+    hederaAddresses
   }
 }
