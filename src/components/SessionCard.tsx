@@ -1,4 +1,4 @@
-import { truncate } from '@/utils/HelperUtil'
+import { truncateUrl } from '@/utils/HelperUtil'
 import { Avatar, Card, Link, Text } from '@nextui-org/react'
 import Image from 'next/image'
 import NextLink from 'next/link'
@@ -43,7 +43,7 @@ export default function SessionCard({ logo, name, url, topic }: IProps) {
               {name}
             </Text>
             <Link href={url} css={{ marginLeft: '$9' }}>
-              {truncate(url?.split('https://')[1] ?? 'Unknown', 23)}
+              {truncateUrl(url)}
             </Link>
           </div>
 

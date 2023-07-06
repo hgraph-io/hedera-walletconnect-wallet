@@ -106,3 +106,7 @@ export function formatChainName(chainId: string) {
     chainId
   )
 }
+
+export function truncateUrl(url: string | undefined) {
+  return truncate(url?.split(/http[s]?:\/\//)[1] ?? 'Unknown', 23)
+}
