@@ -1,4 +1,4 @@
-import { Client, Hbar } from '@hashgraph/sdk'
+import { Client, Hbar, Transaction, PrivateKey, AccountId } from '@hashgraph/sdk'
 
 type HederaWalletInitOptions = {
   accountId: string
@@ -7,10 +7,13 @@ type HederaWalletInitOptions = {
 
 export class HederaWallet {
   private client: Client
-  private accountId: string
+  private accountId: AccountId
+  private privateKey: PrivateKey
 
   public constructor({ accountId, privateKey }: HederaWalletInitOptions) {
-    this.accountId = accountId
+    const accountAddress = Number(accountId.split('.').pop())
+    this.accountId = new AccountId(accountAddress)
+    this.privateKey = PrivateKey.fromString(privateKey)
     this.client = this._initClient({ accountId, privateKey })
   }
 
@@ -24,25 +27,23 @@ export class HederaWallet {
 
   public async getAccount() {
     return {
-      accountId: this.accountId
+      accountId: this.accountId.toString()
     }
   }
 
-  /**
-   * This will be used to create an account to transfer HBAR to.
-   * Will be used in conjunction with AccountDeleteTransaction
-   */
-  // private static async _createTestAccount() {
-  //   const testAccountPublicKey = PrivateKey.generateED25519().publicKey
-  //   const testAccount = await new AccountCreateTransaction()
-  //     .setKey(testAccountPublicKey)
-  //     .setInitialBalance(Hbar.fromTinybars(1000))
-  //     .execute(this.client)
-  //   const txnReceipt = await testAccount.getReceipt(this.client)
-  //   const testAccountId = txnReceipt.accountId?.toString()
-  //   if (!testAccountId) {
-  //     throw new Error('Failed to get account ID for newly created test account')
-  //   }
-  //   return { testAccountId }
-  // }
+  public async signAndSendTransaction(transactionBytes: Uint8Array) {
+    try {
+      const transactionFromBytes = Transaction.fromBytes(transactionBytes)
+      const signedTransaction = await transactionFromBytes.sign(this.privateKey)
+      const response = await signedTransaction.execute(this.client)
+      const receipt = await response.getReceipt(this.client)
+      return {
+        response,
+        receipt
+      }
+    } catch (e) {
+      console.error(e)
+      return { error: (e as Error).message }
+    }
+  }
 }
