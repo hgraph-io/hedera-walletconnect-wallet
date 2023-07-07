@@ -20,3 +20,7 @@ export const HEDERA_TESTNET_CHAINS: HederaChain = {
 }
 
 export const HEDERA_CHAINS = { ...HEDERA_TESTNET_CHAINS }
+
+export enum HEDERA_SIGNING_METHODS {
+  HEDERA_SIGN_AND_SEND_TRANSACTION = 'hedera_signAndSendTransaction'
+}

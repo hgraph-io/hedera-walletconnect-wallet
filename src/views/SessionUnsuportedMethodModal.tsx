@@ -22,7 +22,7 @@ export default function SessionUnsuportedMethodModal() {
 
   return (
     <Fragment>
-      <RequestModalContainer title="Unsuported Method">
+      <RequestModalContainer title="Unsupported Method">
         <ProjectInfoCard metadata={requestSession.peer.metadata} />
 
         <Divider y={2} />
