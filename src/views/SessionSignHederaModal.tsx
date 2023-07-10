@@ -8,23 +8,68 @@ import ModalStore from '@/store/ModalStore'
 import { approveHederaRequest, rejectHederaRequest } from '@/utils/HederaRequestHandlerUtil'
 import { hederaWallet } from '@/utils/HederaWalletUtil'
 import { signClient } from '@/utils/WalletConnectUtil'
+import { type Transaction } from '@hashgraph/sdk'
 import { Button, Divider, Modal, Text } from '@nextui-org/react'
 import { SignClientTypes } from '@walletconnect/types'
 import { Fragment } from 'react'
 
 type RequestParams = SignClientTypes.EventArguments['session_request']['params']
+type FormattedRequestParams = Omit<SignClientTypes.EventArguments['session_request'], 'params'> & {
+  request: {
+    params: {
+      transactionType: string
+      transaction: Transaction
+    }
+  }
+}
 
-const formatParams = (params: RequestParams): RequestParams => {
-  switch (params.request.method) {
+const formatParams = (params: RequestParams) => {
+  const {
+    method,
+    params: { transaction }
+  } = params.request
+  switch (method) {
     case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_SEND_TRANSACTION:
-      const txnBytes = new Uint8Array(Object.values(params.request.params.transaction))
-      const transaction = hederaWallet.transactionFromBytes(txnBytes)
-      const formatted = JSON.parse(JSON.stringify(params))
-      formatted.request.params.transaction = transaction
+      const txnBytes = new Uint8Array(Object.values(transaction))
+      const txn = hederaWallet.transactionFromBytes(txnBytes)
+      const formatted: FormattedRequestParams = JSON.parse(JSON.stringify(params))
+      formatted.request.params.transaction = txn
       return formatted
     default:
       return params
   }
+}
+
+const SummaryDetail = ({ label, value }: { label: string; value: string | undefined }) => {
+  if (!value) return null
+  return (
+    <Text>
+      <Text span>
+        {`${label}: `}
+        <Text span color="$gray400" weight="normal">
+          {value}
+        </Text>
+      </Text>
+    </Text>
+  )
+}
+
+const TransactionSummary = ({ params }: { params: FormattedRequestParams }) => {
+  const { transaction, transactionType } = params.request.params
+  const shouldShow = Boolean(transaction.transactionMemo || transactionType)
+
+  if (!shouldShow) return null
+
+  return (
+    <>
+      <>
+        <Text h5>Summary</Text>
+        <SummaryDetail label="Type" value={transactionType} />
+        <SummaryDetail label="Memo" value={transaction.transactionMemo} />
+      </>
+      <Divider y={2} />
+    </>
+  )
 }
 
 export default function SessionSignNearModal() {
@@ -40,6 +85,7 @@ export default function SessionSignNearModal() {
   // Get required request data
   const { topic, params } = requestEvent
   const { request, chainId } = params
+  const formattedParams = formatParams(params)
 
   // Handle approve action (logic varies based on request method)
   async function onApprove() {
@@ -76,7 +122,9 @@ export default function SessionSignNearModal() {
 
         <Divider y={2} />
 
-        <RequestDataCard data={formatParams(params)} />
+        <TransactionSummary params={formattedParams as FormattedRequestParams} />
+
+        <RequestDataCard data={formattedParams} />
 
         <Divider y={2} />
 
