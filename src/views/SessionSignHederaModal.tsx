@@ -3,11 +3,29 @@ import RequestDataCard from '@/components/RequestDataCard'
 import RequestDetailsCard from '@/components/RequestDetalilsCard'
 import RequestMethodCard from '@/components/RequestMethodCard'
 import RequestModalContainer from '@/components/RequestModalContainer'
+import { HEDERA_SIGNING_METHODS } from '@/data/HederaData'
 import ModalStore from '@/store/ModalStore'
 import { approveHederaRequest, rejectHederaRequest } from '@/utils/HederaRequestHandlerUtil'
+import { hederaWallet } from '@/utils/HederaWalletUtil'
 import { signClient } from '@/utils/WalletConnectUtil'
 import { Button, Divider, Modal, Text } from '@nextui-org/react'
+import { SignClientTypes } from '@walletconnect/types'
 import { Fragment } from 'react'
+
+type RequestParams = SignClientTypes.EventArguments['session_request']['params']
+
+const formatParams = (params: RequestParams): RequestParams => {
+  switch (params.request.method) {
+    case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_SEND_TRANSACTION:
+      const txnBytes = new Uint8Array(Object.values(params.request.params.transaction))
+      const transaction = hederaWallet.transactionFromBytes(txnBytes)
+      const formatted = JSON.parse(JSON.stringify(params))
+      formatted.request.params.transaction = transaction
+      return formatted
+    default:
+      return params
+  }
+}
 
 export default function SessionSignNearModal() {
   // Get request and wallet data from store
@@ -49,7 +67,7 @@ export default function SessionSignNearModal() {
 
   return (
     <Fragment>
-      <RequestModalContainer title="NEAR">
+      <RequestModalContainer title="Hedera">
         <ProjectInfoCard metadata={requestSession.peer.metadata} />
 
         <Divider y={2} />
@@ -58,7 +76,7 @@ export default function SessionSignNearModal() {
 
         <Divider y={2} />
 
-        <RequestDataCard data={params} />
+        <RequestDataCard data={formatParams(params)} />
 
         <Divider y={2} />
 

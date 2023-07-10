@@ -31,10 +31,13 @@ export class HederaWallet {
     }
   }
 
-  public async signAndSendTransaction(transactionBytes: Uint8Array) {
+  public transactionFromBytes(transactionBytes: Uint8Array) {
+    return Transaction.fromBytes(transactionBytes)
+  }
+
+  public async signAndSendTransaction(transaction: Transaction) {
     try {
-      const transactionFromBytes = Transaction.fromBytes(transactionBytes)
-      const signedTransaction = await transactionFromBytes.sign(this.privateKey)
+      const signedTransaction = await transaction.sign(this.privateKey)
       const response = await signedTransaction.execute(this.client)
       const receipt = await response.getReceipt(this.client)
       return {
