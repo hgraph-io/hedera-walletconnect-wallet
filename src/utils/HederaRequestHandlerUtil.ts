@@ -14,15 +14,16 @@ export async function approveHederaRequest(
     case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_SEND_TRANSACTION:
       console.log('approve', { method: request.method, id, params })
       try {
-        const transactionBytes = new Uint8Array(Object.values(request.params.transaction))
-        const result = await hederaWallet.signAndSendTransaction(transactionBytes)
+        const txnBytes = new Uint8Array(Object.values(params.request.params.transaction))
+        const transaction = hederaWallet.transactionFromBytes(txnBytes)
+        const result = await hederaWallet.signAndSendTransaction(transaction)
         return formatJsonRpcResult(id, result)
       } catch (e) {
         console.log(e)
       }
 
     default:
-      throw new Error(getSdkError('INVALID_METHOD').message)
+      return formatJsonRpcError(id, getSdkError('INVALID_METHOD').message)
   }
 }
 
