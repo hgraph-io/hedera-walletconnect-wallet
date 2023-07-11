@@ -8,68 +8,104 @@ import ModalStore from '@/store/ModalStore'
 import { approveHederaRequest, rejectHederaRequest } from '@/utils/HederaRequestHandlerUtil'
 import { hederaWallet } from '@/utils/HederaWalletUtil'
 import { signClient } from '@/utils/WalletConnectUtil'
-import { type Transaction } from '@hashgraph/sdk'
+import { type TransferTransaction, RequestType } from '@hashgraph/sdk'
 import { Button, Divider, Modal, Text } from '@nextui-org/react'
 import { SignClientTypes } from '@walletconnect/types'
 import { Fragment } from 'react'
 
-type RequestParams = SignClientTypes.EventArguments['session_request']['params']
-type FormattedRequestParams = Omit<SignClientTypes.EventArguments['session_request'], 'params'> & {
-  request: {
-    params: {
-      transactionType: string
-      transaction: Transaction
-    }
+type HederaSignAndSendTransactionParams = {
+  transaction: {
+    type: string
+    bytes: Record<string, number>
   }
 }
 
-const formatParams = (params: RequestParams) => {
-  const {
-    method,
-    params: { transaction }
-  } = params.request
-  switch (method) {
-    case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_SEND_TRANSACTION:
-      const txnBytes = new Uint8Array(Object.values(transaction))
-      const txn = hederaWallet.transactionFromBytes(txnBytes)
-      const formatted: FormattedRequestParams = JSON.parse(JSON.stringify(params))
-      formatted.request.params.transaction = txn
-      return formatted
-    default:
-      return params
-  }
+type SessionRequestParams = SignClientTypes.EventArguments['session_request']['params']
+
+const buildTransactionFromBytes = (
+  transaction: HederaSignAndSendTransactionParams['transaction']
+) => {
+  const txnBytes = new Uint8Array(Object.values(transaction.bytes))
+  return hederaWallet.transactionFromBytes(txnBytes)
 }
 
-const SummaryDetail = ({ label, value }: { label: string; value: string | undefined }) => {
+const SummaryDetail = ({
+  label,
+  value
+}: {
+  label: string
+  value: string | JSX.Element | undefined
+}) => {
   if (!value) return null
   return (
-    <Text>
-      <Text span>
-        {`${label}: `}
-        <Text span color="$gray400" weight="normal">
+    <div style={{ paddingTop: 8 }}>
+      <Text b>{`${label}`}</Text>
+      {typeof value === 'string' ? (
+        <Text color="$gray400" weight="normal">
           {value}
         </Text>
-      </Text>
-    </Text>
+      ) : (
+        value
+      )}
+    </div>
   )
 }
 
-const TransactionSummary = ({ params }: { params: FormattedRequestParams }) => {
-  const { transaction, transactionType } = params.request.params
-  const shouldShow = Boolean(transaction.transactionMemo || transactionType)
+const SignAndSendTransactionSummary = ({ params }: { params: SessionRequestParams }) => {
+  const { transaction } = params.request.params as HederaSignAndSendTransactionParams
+  const shouldShow = Boolean(transaction.bytes)
 
   if (!shouldShow) return null
 
+  const transactionFromBytes = buildTransactionFromBytes(transaction)
+
+  let dataSummary: { label: string; data: JSX.Element }[] = []
+
+  if (transaction.type === RequestType.CryptoTransfer.toString()) {
+    const hbarTransferMap = (transactionFromBytes as TransferTransaction).hbarTransfers
+    if (hbarTransferMap) {
+      const hbarTransfers = Array.from(hbarTransferMap)
+
+      const HbarTransferSummary = (
+        <>
+          {hbarTransfers.map(([accountId, amount]) => (
+            <div>
+              <Text span color="$gray400">
+                {`• ${accountId.toString()}: `}
+                <Text span color={amount.isNegative() ? 'error' : 'success'}>
+                  {amount.toString()}
+                </Text>
+              </Text>
+            </div>
+          ))}
+        </>
+      )
+      dataSummary.push({ label: 'HBAR Transfers', data: HbarTransferSummary })
+    }
+
+    /**
+     * TODO: Handle token transfers and NFT transfers as well
+     */
+  }
+
   return (
     <>
-      <>
-        <Text h5>Summary</Text>
-        <SummaryDetail label="Type" value={transactionType} />
-        <SummaryDetail label="Memo" value={transaction.transactionMemo} />
-      </>
-      <Divider y={2} />
+      <Text h5>Summary</Text>
+      <SummaryDetail label="Type" value={transaction.type} />
+      <SummaryDetail label="Memo" value={transactionFromBytes.transactionMemo} />
+      {dataSummary.length > 0 &&
+        dataSummary.map(({ label, data }) => <SummaryDetail label={label} value={data} />)}
     </>
   )
+}
+
+const RequestSummary = ({ params }: { params: SessionRequestParams }) => {
+  switch (params.request.method) {
+    case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_SEND_TRANSACTION:
+      return <SignAndSendTransactionSummary params={params} />
+    default:
+      return null
+  }
 }
 
 export default function SessionSignNearModal() {
@@ -85,7 +121,6 @@ export default function SessionSignNearModal() {
   // Get required request data
   const { topic, params } = requestEvent
   const { request, chainId } = params
-  const formattedParams = formatParams(params)
 
   // Handle approve action (logic varies based on request method)
   async function onApprove() {
@@ -122,9 +157,11 @@ export default function SessionSignNearModal() {
 
         <Divider y={2} />
 
-        <TransactionSummary params={formattedParams as FormattedRequestParams} />
+        <RequestSummary params={params} />
 
-        <RequestDataCard data={formattedParams} />
+        <Divider y={2} />
+
+        <RequestDataCard data={params} />
 
         <Divider y={2} />
 

@@ -14,7 +14,7 @@ export async function approveHederaRequest(
     case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_SEND_TRANSACTION:
       console.log('approve', { method: request.method, id, params })
       try {
-        const txnBytes = new Uint8Array(Object.values(params.request.params.transaction))
+        const txnBytes = new Uint8Array(Object.values(params.request.params.transaction.bytes))
         const transaction = hederaWallet.transactionFromBytes(txnBytes)
         const result = await hederaWallet.signAndSendTransaction(transaction)
         return formatJsonRpcResult(id, result)
