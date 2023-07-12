@@ -8,22 +8,103 @@ import ModalStore from '@/store/ModalStore'
 import { approveHederaRequest, rejectHederaRequest } from '@/utils/HederaRequestHandlerUtil'
 import { hederaWallet } from '@/utils/HederaWalletUtil'
 import { signClient } from '@/utils/WalletConnectUtil'
+import { type TransferTransaction, RequestType } from '@hashgraph/sdk'
 import { Button, Divider, Modal, Text } from '@nextui-org/react'
 import { SignClientTypes } from '@walletconnect/types'
 import { Fragment } from 'react'
 
-type RequestParams = SignClientTypes.EventArguments['session_request']['params']
+type HederaSignAndSendTransactionParams = {
+  transaction: {
+    type: string
+    bytes: Record<string, number>
+  }
+}
 
-const formatParams = (params: RequestParams): RequestParams => {
+type SessionRequestParams = SignClientTypes.EventArguments['session_request']['params']
+
+const buildTransactionFromBytes = (
+  transaction: HederaSignAndSendTransactionParams['transaction']
+) => {
+  const txnBytes = new Uint8Array(Object.values(transaction.bytes))
+  return hederaWallet.transactionFromBytes(txnBytes)
+}
+
+const SummaryDetail = ({
+  label,
+  value
+}: {
+  label: string
+  value: string | JSX.Element | undefined
+}) => {
+  if (!value) return null
+  return (
+    <div style={{ paddingTop: 8 }}>
+      <Text b>{`${label}`}</Text>
+      {typeof value === 'string' ? (
+        <Text color="$gray400" weight="normal">
+          {value}
+        </Text>
+      ) : (
+        value
+      )}
+    </div>
+  )
+}
+
+const SignAndSendTransactionSummary = ({ params }: { params: SessionRequestParams }) => {
+  const { transaction } = params.request.params as HederaSignAndSendTransactionParams
+  const shouldShow = Boolean(transaction.bytes)
+
+  if (!shouldShow) return null
+
+  const transactionFromBytes = buildTransactionFromBytes(transaction)
+
+  let dataSummary: { label: string; data: JSX.Element }[] = []
+
+  if (transaction.type === RequestType.CryptoTransfer.toString()) {
+    const hbarTransferMap = (transactionFromBytes as TransferTransaction).hbarTransfers
+    if (hbarTransferMap) {
+      const hbarTransfers = Array.from(hbarTransferMap)
+
+      const HbarTransferSummary = (
+        <>
+          {hbarTransfers.map(([accountId, amount]) => (
+            <div>
+              <Text span color="$gray400">
+                {`• ${accountId.toString()}: `}
+                <Text span color={amount.isNegative() ? 'error' : 'success'}>
+                  {amount.toString()}
+                </Text>
+              </Text>
+            </div>
+          ))}
+        </>
+      )
+      dataSummary.push({ label: 'HBAR Transfers', data: HbarTransferSummary })
+    }
+
+    /**
+     * TODO: Handle token transfers and NFT transfers as well
+     */
+  }
+
+  return (
+    <>
+      <Text h5>Summary</Text>
+      <SummaryDetail label="Type" value={transaction.type} />
+      <SummaryDetail label="Memo" value={transactionFromBytes.transactionMemo} />
+      {dataSummary.length > 0 &&
+        dataSummary.map(({ label, data }) => <SummaryDetail label={label} value={data} />)}
+    </>
+  )
+}
+
+const RequestSummary = ({ params }: { params: SessionRequestParams }) => {
   switch (params.request.method) {
     case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_SEND_TRANSACTION:
-      const txnBytes = new Uint8Array(Object.values(params.request.params.transaction))
-      const transaction = hederaWallet.transactionFromBytes(txnBytes)
-      const formatted = JSON.parse(JSON.stringify(params))
-      formatted.request.params.transaction = transaction
-      return formatted
+      return <SignAndSendTransactionSummary params={params} />
     default:
-      return params
+      return null
   }
 }
 
@@ -76,7 +157,11 @@ export default function SessionSignNearModal() {
 
         <Divider y={2} />
 
-        <RequestDataCard data={formatParams(params)} />
+        <RequestSummary params={params} />
+
+        <Divider y={2} />
+
+        <RequestDataCard data={params} />
 
         <Divider y={2} />
 
