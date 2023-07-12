@@ -8,7 +8,11 @@ import ModalStore from '@/store/ModalStore'
 import { approveHederaRequest, rejectHederaRequest } from '@/utils/HederaRequestHandlerUtil'
 import { hederaWallet } from '@/utils/HederaWalletUtil'
 import { signClient } from '@/utils/WalletConnectUtil'
-import { type TransferTransaction, RequestType } from '@hashgraph/sdk'
+import {
+  type TransferTransaction,
+  RequestType,
+  TopicMessageSubmitTransaction
+} from '@hashgraph/sdk'
 import { Button, Divider, Modal, Text } from '@nextui-org/react'
 import { SignClientTypes } from '@walletconnect/types'
 import { Fragment } from 'react'
@@ -29,23 +33,22 @@ const buildTransactionFromBytes = (
   return hederaWallet.transactionFromBytes(txnBytes)
 }
 
-const SummaryDetail = ({
-  label,
-  value
-}: {
+type SummaryDetailProps = {
   label: string
-  value: string | JSX.Element | undefined
-}) => {
-  if (!value) return null
+  data: JSX.Element | string | null | undefined
+}
+
+const SummaryDetail = ({ label, data }: SummaryDetailProps) => {
+  if (!data) return null
   return (
     <div style={{ paddingTop: 8 }}>
       <Text b>{`${label}`}</Text>
-      {typeof value === 'string' ? (
+      {typeof data === 'string' ? (
         <Text color="$gray400" weight="normal">
-          {value}
+          {data}
         </Text>
       ) : (
-        value
+        data
       )}
     </div>
   )
@@ -53,13 +56,12 @@ const SummaryDetail = ({
 
 const SignAndSendTransactionSummary = ({ params }: { params: SessionRequestParams }) => {
   const { transaction } = params.request.params as HederaSignAndSendTransactionParams
-  const shouldShow = Boolean(transaction.bytes)
+  const transactionFromBytes = buildTransactionFromBytes(transaction)
+  const shouldShow = transaction.bytes && transactionFromBytes
 
   if (!shouldShow) return null
 
-  const transactionFromBytes = buildTransactionFromBytes(transaction)
-
-  let dataSummary: { label: string; data: JSX.Element }[] = []
+  let dataSummary: SummaryDetailProps[] = []
 
   if (transaction.type === RequestType.CryptoTransfer.toString()) {
     const hbarTransferMap = (transactionFromBytes as TransferTransaction).hbarTransfers
@@ -88,13 +90,22 @@ const SignAndSendTransactionSummary = ({ params }: { params: SessionRequestParam
      */
   }
 
+  if (transaction.type === RequestType.ConsensusSubmitMessage.toString()) {
+    const txn = transactionFromBytes as TopicMessageSubmitTransaction
+    const uint8Message = txn.getMessage()
+    const message = uint8Message && Buffer.from(uint8Message as any, 'base64').toString()
+
+    dataSummary.push({ label: 'Topic ID', data: txn.topicId?.toString() })
+    dataSummary.push({ label: 'Message', data: message })
+  }
+
   return (
     <>
       <Text h5>Summary</Text>
-      <SummaryDetail label="Type" value={transaction.type} />
-      <SummaryDetail label="Memo" value={transactionFromBytes.transactionMemo} />
+      <SummaryDetail label="Type" data={transaction.type} />
+      <SummaryDetail label="Memo" data={transactionFromBytes?.transactionMemo} />
       {dataSummary.length > 0 &&
-        dataSummary.map(({ label, data }) => <SummaryDetail label={label} value={data} />)}
+        dataSummary.map(({ label, data }) => <SummaryDetail label={label} data={data} />)}
     </>
   )
 }
