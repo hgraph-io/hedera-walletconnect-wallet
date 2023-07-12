@@ -16,6 +16,9 @@ export async function approveHederaRequest(
       try {
         const txnBytes = new Uint8Array(Object.values(params.request.params.transaction.bytes))
         const transaction = hederaWallet.transactionFromBytes(txnBytes)
+        if (!transaction) {
+          return formatJsonRpcError(id, 'Unable to build transaction from bytes.')
+        }
         const result = await hederaWallet.signAndSendTransaction(transaction)
         return formatJsonRpcResult(id, result)
       } catch (e) {
