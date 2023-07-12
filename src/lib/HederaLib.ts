@@ -32,7 +32,7 @@ export class HederaWallet {
   }
 
   public transactionFromBytes(transactionBytes: Uint8Array) {
-    if (!transactionBytes || !transactionBytes.byteLength) return null
+    if (!transactionBytes?.byteLength) return null
     return Transaction.fromBytes(transactionBytes)
   }
 
