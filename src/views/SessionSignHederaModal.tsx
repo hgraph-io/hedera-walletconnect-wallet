@@ -61,7 +61,10 @@ const SignAndSendTransactionSummary = ({ params }: { params: SessionRequestParam
 
   if (!shouldShow) return null
 
-  let dataSummary: SummaryDetailProps[] = []
+  let summaryDetailData: SummaryDetailProps[] = []
+
+  summaryDetailData.push({ label: 'TransactionType', data: transaction.type })
+  summaryDetailData.push({ label: 'Memo', data: transactionFromBytes.transactionMemo })
 
   if (transaction.type === RequestType.CryptoTransfer.toString()) {
     const hbarTransferMap = (transactionFromBytes as TransferTransaction).hbarTransfers
@@ -82,7 +85,7 @@ const SignAndSendTransactionSummary = ({ params }: { params: SessionRequestParam
           ))}
         </>
       )
-      dataSummary.push({ label: 'HBAR Transfers', data: HbarTransferSummary })
+      summaryDetailData.push({ label: 'HBAR Transfers', data: HbarTransferSummary })
     }
 
     /**
@@ -95,17 +98,18 @@ const SignAndSendTransactionSummary = ({ params }: { params: SessionRequestParam
     const uint8Message = txn.getMessage()
     const message = uint8Message && Buffer.from(uint8Message as any, 'base64').toString()
 
-    dataSummary.push({ label: 'Topic ID', data: txn.topicId?.toString() })
-    dataSummary.push({ label: 'Message', data: message })
+    summaryDetailData.push({ label: 'Topic ID', data: txn.topicId?.toString() })
+    summaryDetailData.push({ label: 'Message', data: message })
   }
+
+  if (!summaryDetailData.length) return null
 
   return (
     <>
       <Text h5>Summary</Text>
-      <SummaryDetail label="Type" data={transaction.type} />
-      <SummaryDetail label="Memo" data={transactionFromBytes?.transactionMemo} />
-      {dataSummary.length > 0 &&
-        dataSummary.map(({ label, data }) => <SummaryDetail label={label} data={data} />)}
+      {summaryDetailData.map(({ label, data }) => (
+        <SummaryDetail label={label} data={data} />
+      ))}
     </>
   )
 }
