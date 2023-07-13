@@ -1,18 +1,8 @@
 # Wallet Example (React, Typescript, Ethers, NextJS)
 
-This example aims to demonstrate basic and advanced use cases enabled by WalletConnect's Sign SDK.
+This demo wallet is a pared down version of WalletConnect's [react-wallet-v2 demo](https://github.com/WalletConnect/web-examples/tree/main/wallets/react-wallet-v2). This version of the app only showcases connecting a dApp and a wallet for Ethereum (EVM) chains via JSON-RPC and Hedera via the official `@hashgraph/sdk` [library](https://github.com/hashgraph/hedera-sdk-js).
 
-**The wallet implements Sign v1 and v2 side-by-side**, to serve as a reference for wallet developers
-aiming to support both major versions for backwards compatibility. **All files containing code for the legacy
-v1 implementation are prefixed with `Legacy...`.**
-
-Please only use this for reference and development purposes, otherwise you are at risk of losing your funds.
-
-# Useful links
-
-🔗 Live wallet app - https://react-wallet.walletconnect.com <br />
-🔗 Live dapp - https://react-app.walletconnect.com <br />
-📚 WalletConnect docs - https://docs.walletconnect.com/2.0
+This wallet is meant to be used in conjuction with the corresponding [hedera-walletconnect-dapp](https://github.com/hgraph-io/hedera-walletconnect-dapp). Please also set up that project.
 
 ## Getting started
 
@@ -24,7 +14,7 @@ Example is built atop of [NextJS](https://nextjs.org/) in order to abstract comp
 
 3. Go to [Hedera Portal](https://portal.hedera.com/) to create a Testnet account
 
-4. Install dependencies `yarn install` or `npm install`
+4. Install dependencies `yarn install`
 
 5. Setup your environment variables
 
@@ -39,7 +29,8 @@ Your `.env.local` now contains the following environment variables:
 - `NEXT_PUBLIC_HEDERA_ACCOUNT_ID` (placeholder) - Get your testnet account id from https://portal.hedera.com/
 - `HEDERA_PRIVATE_KEY` (placeholder) - Get your testnet account id from https://portal.hedera.com/
 
-5. Run `yarn dev` or `npm run dev` to start local development
+6. Run `yarn dev` or `npm run dev` to start local development
+7. Go to http://localhost:3001 (Note that you may have a better experience running in an incognito browser window)
 
 ## Navigating through example
 
