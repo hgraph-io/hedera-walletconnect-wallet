@@ -4,6 +4,8 @@ This demo wallet is a pared down version of WalletConnect's [react-wallet-v2 dem
 
 This wallet is meant to be used in conjuction with the corresponding [hedera-walletconnect-dapp](https://github.com/hgraph-io/hedera-walletconnect-dapp). Please also set up that project.
 
+For integrating Hedera, The dApp's responsibility is to build the transaction with the Hedera SDK, freeze the transaction, convert the transaction to bytes, and then pass the payload to the wallet via WalletConnect to the wallet. The wallet's responsibility is to use the Hedera SDK to reconstruct the transaction object from bytes, extract and format information about the transaction to present to the user, sign and submit the transaction to the Hedera network if approved, and report approval/rejection results back to the dApp. 
+
 ## Getting started
 
 Example is built atop of [NextJS](https://nextjs.org/) in order to abstract complexity of setting up bundlers, routing etc. So there are few steps you need to follow in order to set everything up
@@ -42,4 +44,5 @@ Your `.env.local` now contains the following environment variables:
 
 ## Preview of wallet and dapp examples in action
 
-https://user-images.githubusercontent.com/3154053/156764521-3492c232-7a93-47ba-88bd-2cee3f8366d4.mp4
+https://github.com/hgraph-io/hedera-walletconnect-wallet/assets/136644362/913dd047-bd5a-4d4e-99d6-5cb5b7fab844
+
