@@ -1,5 +1,4 @@
 import { EIP155_CHAINS, TEIP155Chain } from '@/data/EIP155Data'
-import { NEAR_TEST_CHAINS, TNearChain } from '@/data/NEARData'
 import { HEDERA_CHAINS, THederaChain } from '@/data/HederaData'
 import { Col, Divider, Row, Text } from '@nextui-org/react'
 import { Fragment } from 'react'
@@ -26,7 +25,6 @@ export default function RequesDetailsCard({ chains, protocol }: IProps) {
               .map(
                 chain =>
                   EIP155_CHAINS[chain as TEIP155Chain]?.name ??
-                  NEAR_TEST_CHAINS[chain as TNearChain]?.name ??
                   HEDERA_CHAINS[chain as THederaChain]?.name ??
                   chain
               )

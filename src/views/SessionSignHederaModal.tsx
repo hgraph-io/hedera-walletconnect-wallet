@@ -123,7 +123,7 @@ const RequestSummary = ({ params }: { params: SessionRequestParams }) => {
   }
 }
 
-export default function SessionSignNearModal() {
+export default function SessionSignHederaModal() {
   // Get request and wallet data from store
   const requestEvent = ModalStore.state.data?.requestEvent
   const requestSession = ModalStore.state.data?.requestSession

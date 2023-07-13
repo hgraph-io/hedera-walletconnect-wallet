@@ -1,6 +1,5 @@
 import ChainCard from '@/components/ChainCard'
 import { EIP155_MAINNET_CHAINS, EIP155_TEST_CHAINS } from '@/data/EIP155Data'
-import { NEAR_TEST_CHAINS } from '@/data/NEARData'
 import { formatChainName } from '@/utils/HelperUtil'
 import { Col, Row, Text } from '@nextui-org/react'
 import { ProposalTypes } from '@walletconnect/types'
@@ -12,7 +11,6 @@ import { Fragment } from 'react'
 const CHAIN_METADATA = {
   ...EIP155_MAINNET_CHAINS,
   ...EIP155_TEST_CHAINS,
-  ...NEAR_TEST_CHAINS
 }
 
 /**
