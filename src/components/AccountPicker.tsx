@@ -1,6 +1,5 @@
 import SettingsStore from '@/store/SettingsStore'
 import { eip155Addresses } from '@/utils/EIP155WalletUtil'
-import { nearAddresses } from '@/utils/NearWalletUtil'
 import { useSnapshot } from 'valtio'
 
 export default function AccountPicker() {
@@ -10,7 +9,6 @@ export default function AccountPicker() {
     const account = Number(value)
     SettingsStore.setAccount(account)
     SettingsStore.setEIP155Address(eip155Addresses[account])
-    SettingsStore.setNearAddress(nearAddresses[account])
   }
 
   return (

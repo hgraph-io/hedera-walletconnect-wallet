@@ -1,5 +1,4 @@
 import { EIP155_CHAINS, TEIP155Chain } from '@/data/EIP155Data'
-import { NEAR_TEST_CHAINS, TNearChain } from '@/data/NEARData'
 import { HEDERA_CHAINS, THederaChain } from '@/data/HederaData'
 
 import { utils } from 'ethers'
@@ -82,14 +81,7 @@ export function isEIP155Chain(chain: string) {
 }
 
 /**
- * Check if chain is part of NEAR standard
- */
-export function isNearChain(chain: string) {
-  return chain.includes('near')
-}
-
-/**
- * Check if chain is part of NEAR standard
+ * Check if chain is part of Hedera standard
  */
 export function isHederaChain(chain: string) {
   return chain.includes('hedera')
@@ -101,7 +93,6 @@ export function isHederaChain(chain: string) {
 export function formatChainName(chainId: string) {
   return (
     EIP155_CHAINS[chainId as TEIP155Chain]?.name ??
-    NEAR_TEST_CHAINS[chainId as TNearChain]?.name ??
     HEDERA_CHAINS[chainId as THederaChain]?.name ??
     chainId
   )

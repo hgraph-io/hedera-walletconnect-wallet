@@ -4,13 +4,12 @@ import RequestModalContainer from '@/components/RequestModalContainer'
 import SessionProposalChainCard from '@/components/SessionProposalChainCard'
 import ModalStore from '@/store/ModalStore'
 import { eip155Addresses } from '@/utils/EIP155WalletUtil'
-import { isEIP155Chain, isNearChain, isHederaChain } from '@/utils/HelperUtil'
+import { isEIP155Chain, isHederaChain } from '@/utils/HelperUtil'
 import { signClient } from '@/utils/WalletConnectUtil'
 import { Button, Divider, Modal, Text } from '@nextui-org/react'
 import { SessionTypes } from '@walletconnect/types'
 import { getSdkError, mergeArrays } from '@walletconnect/utils'
 import { Fragment, useState } from 'react'
-import { nearAddresses } from '@/utils/NearWalletUtil'
 import { hederaAddresses } from '@/utils/HederaWalletUtil'
 
 export default function SessionProposalModal() {
@@ -118,8 +117,6 @@ export default function SessionProposalModal() {
     let addresses: string[] = []
     if (isEIP155Chain(chain)) {
       addresses = eip155Addresses
-    } else if (isNearChain(chain)) {
-      addresses = nearAddresses
     } else if (isHederaChain(chain)) {
       addresses = hederaAddresses
     }

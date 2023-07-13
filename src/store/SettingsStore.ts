@@ -7,7 +7,6 @@ interface State {
   testNets: boolean
   account: number
   eip155Address: string
-  nearAddress: string
   hederaAddress: string
   relayerRegionURL: string
   activeChainId: string
@@ -22,7 +21,6 @@ const state = proxy<State>({
   activeChainId: '1',
   eip155Address: '',
   hederaAddress: '',
-  nearAddress: '',
   relayerRegionURL: ''
 })
 
@@ -38,10 +36,6 @@ const SettingsStore = {
 
   setEIP155Address(eip155Address: string) {
     state.eip155Address = eip155Address
-  },
-
-  setNearAddress(nearAddress: string) {
-    state.nearAddress = nearAddress
   },
 
   setHederaAddress(hederaAddress: string) {
