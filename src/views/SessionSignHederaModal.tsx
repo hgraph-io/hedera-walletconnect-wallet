@@ -20,18 +20,11 @@ import { Fragment } from 'react'
 type HederaSignAndSendTransactionParams = {
   transaction: {
     type: string
-    bytes: Record<string, number>
+    bytes: string
   }
 }
 
 type SessionRequestParams = SignClientTypes.EventArguments['session_request']['params']
-
-const buildTransactionFromBytes = (
-  transaction: HederaSignAndSendTransactionParams['transaction']
-) => {
-  const txnBytes = new Uint8Array(Object.values(transaction.bytes))
-  return hederaWallet.transactionFromBytes(txnBytes)
-}
 
 type SummaryDetailProps = {
   label: string
@@ -56,7 +49,7 @@ const SummaryDetail = ({ label, data }: SummaryDetailProps) => {
 
 const SignAndSendTransactionSummary = ({ params }: { params: SessionRequestParams }) => {
   const { transaction } = params.request.params as HederaSignAndSendTransactionParams
-  const transactionFromBytes = buildTransactionFromBytes(transaction)
+  const transactionFromBytes = hederaWallet.transactionFromEncodedBytes(transaction.bytes)
   const shouldShow = transaction.bytes && transactionFromBytes
 
   if (!shouldShow) return null

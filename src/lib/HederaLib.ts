@@ -31,9 +31,10 @@ export class HederaWallet {
     }
   }
 
-  public transactionFromBytes(transactionBytes: Uint8Array) {
-    if (!transactionBytes?.byteLength) return null
-    return Transaction.fromBytes(transactionBytes)
+  public transactionFromEncodedBytes(transactionBytes: string) {
+    if (!transactionBytes) return null
+    const decoded = Buffer.from(transactionBytes, 'base64')
+    return Transaction.fromBytes(decoded)
   }
 
   public async signAndSendTransaction(transaction: Transaction) {
