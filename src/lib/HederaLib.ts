@@ -52,13 +52,14 @@ export class HederaWallet {
     }
   }
 
-  public async signAndReturnTransaction(transaction: Transaction) {
+  public async signAndReturnTransaction(transaction: Transaction, type: string) {
     try {
       const signedTransaction = await transaction.sign(this.privateKey)
       const signedTransactionBytes = signedTransaction.toBytes()
       const encodedTransactionBytes = Buffer.from(signedTransactionBytes).toString('base64')
       return {
         transaction: {
+          type,
           bytes: encodedTransactionBytes
         }
       }

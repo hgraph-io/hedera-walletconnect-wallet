@@ -33,7 +33,10 @@ export async function approveHederaRequest(
       if (!transaction) {
         return formatJsonRpcError(id, 'Unable to build transaction from bytes.')
       }
-      const result = await hederaWallet.signAndReturnTransaction(transaction)
+      const result = await hederaWallet.signAndReturnTransaction(
+        transaction,
+        params.request.params.transaction.type
+      )
       return formatJsonRpcResult(id, result)
     default:
       return formatJsonRpcError(id, getSdkError('INVALID_METHOD').message)
