@@ -37,7 +37,7 @@ export class HederaWallet {
     return Transaction.fromBytes(decoded)
   }
 
-  public async signAndSendTransaction(transaction: Transaction) {
+  public async signAndExecuteTransaction(transaction: Transaction) {
     try {
       const signedTransaction = await transaction.sign(this.privateKey)
       const response = await signedTransaction.execute(this.client)
@@ -45,6 +45,22 @@ export class HederaWallet {
       return {
         response,
         receipt
+      }
+    } catch (e) {
+      console.error(e)
+      return { error: (e as Error).message }
+    }
+  }
+
+  public async signAndReturnTransaction(transaction: Transaction) {
+    try {
+      const signedTransaction = await transaction.sign(this.privateKey)
+      const signedTransactionBytes = signedTransaction.toBytes()
+      const encodedTransactionBytes = Buffer.from(signedTransactionBytes).toString('base64')
+      return {
+        transaction: {
+          bytes: encodedTransactionBytes
+        }
       }
     } catch (e) {
       console.error(e)
