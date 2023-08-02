@@ -40,7 +40,8 @@ export default function useWalletConnectEventsManager(initialized: boolean) {
         case EIP155_SIGNING_METHODS.ETH_SIGN_TRANSACTION:
           return ModalStore.open('SessionSendTransactionModal', { requestEvent, requestSession })
 
-        case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_SEND_TRANSACTION:
+        case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_EXECUTE_TRANSACTION:
+        case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_RETURN_TRANSACTION:
           return ModalStore.open('SessionSignHederaModal', { requestEvent, requestSession })
 
         default:
