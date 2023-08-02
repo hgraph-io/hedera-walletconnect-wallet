@@ -47,7 +47,7 @@ const SummaryDetail = ({ label, data }: SummaryDetailProps) => {
   )
 }
 
-const SignAndSendTransactionSummary = ({ params }: { params: SessionRequestParams }) => {
+const SignAndExecuteTransactionSummary = ({ params }: { params: SessionRequestParams }) => {
   const { transaction } = params.request.params as HederaSignAndSendTransactionParams
   const transactionFromBytes = hederaWallet.transactionFromEncodedBytes(transaction.bytes)
   const shouldShow = transaction.bytes && transactionFromBytes
@@ -109,8 +109,8 @@ const SignAndSendTransactionSummary = ({ params }: { params: SessionRequestParam
 
 const RequestSummary = ({ params }: { params: SessionRequestParams }) => {
   switch (params.request.method) {
-    case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_SEND_TRANSACTION:
-      return <SignAndSendTransactionSummary params={params} />
+    case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_EXECUTE_TRANSACTION:
+      return <SignAndExecuteTransactionSummary params={params} />
     default:
       return null
   }

@@ -11,7 +11,7 @@ export async function approveHederaRequest(
   const { request } = params
 
   switch (request.method) {
-    case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_SEND_TRANSACTION:
+    case HEDERA_SIGNING_METHODS.HEDERA_SIGN_AND_EXECUTE_TRANSACTION:
       console.log('approve', { method: request.method, id, params })
       try {
         const transaction = hederaWallet.transactionFromEncodedBytes(
