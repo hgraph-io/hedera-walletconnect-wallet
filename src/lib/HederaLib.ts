@@ -8,7 +8,7 @@ type HederaWalletInitOptions = {
 export class HederaWallet {
   private client: Client
   private accountId: AccountId
-  public privateKey: PrivateKey
+  private privateKey: PrivateKey
 
   public constructor({ accountId, privateKey }: HederaWalletInitOptions) {
     const accountAddress = Number(accountId.split('.').pop())
