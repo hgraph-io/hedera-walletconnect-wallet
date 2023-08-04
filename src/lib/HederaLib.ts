@@ -70,6 +70,11 @@ export class HederaWallet {
   }
 
   public signMessage(bytes: Uint8Array) {
-    return this.privateKey.sign(bytes)
+    const signedMessage = this.privateKey.sign(bytes)
+    return {
+      message: {
+        bytes: Buffer.from(signedMessage).toString('base64')
+      }
+    }
   }
 }
