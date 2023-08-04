@@ -73,9 +73,7 @@ export class HederaWallet {
     const buf = Buffer.from(bytes, 'base64')
     const signedMessage = this.privateKey.sign(buf)
     return {
-      message: {
-        bytes: Buffer.from(signedMessage).toString('base64')
-      }
+      signature: Buffer.from(signedMessage).toString('base64')
     }
   }
 }

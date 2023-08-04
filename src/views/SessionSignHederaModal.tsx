@@ -25,9 +25,7 @@ type HederaSignAndSendTransactionParams = {
 }
 
 type HederaSignMessageParams = {
-  message: {
-    bytes: string
-  }
+  message: string
 }
 
 type SessionRequestParams = SignClientTypes.EventArguments['session_request']['params']
@@ -119,7 +117,7 @@ const SignTransactionSummary = ({ params }: { params: SessionRequestParams }) =>
 
 const SignMessageSummary = ({ params }: { params: SessionRequestParams }) => {
   const { message } = params.request.params as HederaSignMessageParams
-  const decodedMessage = Buffer.from(message.bytes, 'base64').toString()
+  const decodedMessage = Buffer.from(message, 'base64').toString()
 
   const items: SummaryDetailProps[] = []
 

@@ -41,7 +41,7 @@ export async function approveHederaRequest(
     case HEDERA_SIGNING_METHODS.HEDERA_SIGN_MESSAGE:
       try {
         console.log('approve', { method: request.method, id, params })
-        const result = hederaWallet.signMessage(params.request.params.message.bytes)
+        const result = hederaWallet.signMessage(params.request.params.message)
         return formatJsonRpcResult(id, result)
       } catch (e) {
         console.error(e)
